@@ -21,6 +21,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -75,6 +76,8 @@ public class ViroActivity extends Activity {
      */
     private List<Draggable3DObject> mDraggableObjects;
 
+    MediaPlayer mediaPlayer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -120,17 +123,19 @@ public class ViroActivity extends Activity {
                     for (int i = 0; i < arHitTestResults.length; i++) {
                         ARHitTestResult result = arHitTestResults[i];
                         float distance = result.getPosition().distance(cameraPos);
-                        if (distance > MIN_DISTANCE && distance < MAX_DISTANCE) {
-                            // If we found a plane or feature point further than 0.2m and less 10m away,
-                            // then choose it!
-                            add3DDraggableObject(fileName, result.getPosition());
-                            return;
-                        }
+//                        if (distance > MIN_DISTANCE && distance < MAX_DISTANCE) {
+                        // If we found a plane or feature point further than 0.2m and less 10m away,
+                        // then choose it!
+                        add3DDraggableObject(fileName, result.getPosition());
+                        return;
+//                        }
                     }
                 }
                 Toast.makeText(ViroActivity.this, "Unable to find suitable point or plane to place object!",
                         Toast.LENGTH_LONG).show();
             }
+
+
         });
     }
 
@@ -191,6 +196,7 @@ public class ViroActivity extends Activity {
     protected void onStop() {
         super.onStop();
         mViroView.onActivityStopped(this);
+        if (mediaPlayer != null && mediaPlayer.isPlaying()) mediaPlayer.stop();
     }
 
     @Override
@@ -268,9 +274,9 @@ public class ViroActivity extends Activity {
 
         private void addModelToPosition(Vector position) {
             final Object3D object3D = new Object3D();
-            object3D.setPosition(position);
+            object3D.setPosition(new Vector(0, -1f, -1.0f));
             // Shrink the objects as the original size is too large.
-            object3D.setScale(new Vector(.2f, .2f, .2f));
+            object3D.setScale(new Vector(0.002f, 0.002f, 0.002f));
             object3D.setGestureRotateListener(new GestureRotateListener() {
                 @Override
                 public void onRotate(int i, Node node, float rotation, RotateState rotateState) {
@@ -288,6 +294,7 @@ public class ViroActivity extends Activity {
                     if (pinchState == PinchState.PINCH_START) {
                         scaleStart = object3D.getScaleRealtime().x;
                     } else {
+                        Log.d("AnimeObject", "PinchGesture: - " + scaleStart * scale);
                         object3D.setScale(new Vector(scaleStart * scale, scaleStart * scale, scaleStart * scale));
                     }
                 }
@@ -296,7 +303,7 @@ public class ViroActivity extends Activity {
             object3D.setDragListener(new DragListener() {
                 @Override
                 public void onDrag(int i, Node node, Vector vector, Vector vector1) {
-
+                    Log.d("AnimeObject", "Drag: - " + vector.toString() + "-" + vector1.toString());
                 }
             });
 
@@ -311,13 +318,13 @@ public class ViroActivity extends Activity {
                     Animation animation = object.getAnimation("mixamo.com");
 
                     if (animation == null) {
-                        Toast.makeText(ViroActivity.this, "animation null",
-                                Toast.LENGTH_LONG).show();
                         return;
                     }
                     // Make the animation loop, then play it
                     animation.setLoop(true);
                     animation.play();
+                    mediaPlayer = MediaPlayer.create(ViroActivity.this, R.raw.hip_hop);
+                    mediaPlayer.start();
                 }
 
                 @Override
