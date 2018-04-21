@@ -26,7 +26,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -64,19 +63,16 @@ public class ViroActivity extends Activity {
     // Constants used to determine if plane or point is within bounds. Units in meters.
     private static final float MIN_DISTANCE = 0.2f;
     private static final float MAX_DISTANCE = 10f;
+    MediaPlayer mediaPlayer;
     private ViroView mViroView;
-
     /**
      * The ARScene we will be creating within this activity.
      */
     private ARScene mScene;
-
     /**
      * List of draggable 3D objects in our scene.
      */
     private List<Draggable3DObject> mDraggableObjects;
-
-    MediaPlayer mediaPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,6 +90,8 @@ public class ViroActivity extends Activity {
                 Log.e(TAG, "Error initializing AR [" + errorMessage + "]");
             }
         });
+
+
         setContentView(mViroView);
     }
 
@@ -104,7 +102,25 @@ public class ViroActivity extends Activity {
         // Add a light to the scene so our models show up
         mScene.getRootNode().addLight(new AmbientLight(Color.WHITE, 1000f));
         mViroView.setScene(mScene);
-        View.inflate(this, R.layout.viro_view_ar_hit_test_hud, ((ViewGroup) mViroView));
+        View.inflate(this, R.layout.viro_view_ar_hit_test_hud, mViroView);
+    }
+
+    public void fab2(View v) {
+        showPopup();
+    }
+
+    public void fab1(View v) {
+        Toast.makeText(ViroActivity.this, "fab1", Toast.LENGTH_SHORT).show();
+    }
+
+    public void fab3(View v) {
+        placeObject("file:///android_asset/locking_poping.vrx");
+        placeObject("file:///android_asset/locking_poping.vrx");
+        placeObject("file:///android_asset/locking_poping.vrx");
+    }
+
+    public void fab(View v) {
+
     }
 
     /**
@@ -151,21 +167,21 @@ public class ViroActivity extends Activity {
     /**
      * Dialog menu displaying the virtual objects we can place in the real world.
      */
-    public void showPopup(View v) {
+    public void showPopup() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        CharSequence itemsList[] = {"Coffee mug", "Flowers", "Smile Emoji"};
-        builder.setTitle("Choose an object")
+        CharSequence itemsList[] = {"Bicycle Crunch", "Burpee", "Situps"};
+        builder.setTitle("Choose a workout")
                 .setItems(itemsList, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         switch (which) {
                             case 0:
-                                placeObject("file:///android_asset/hip_hop_dancing.vrx");
+                                placeObject("file:///android_asset/bicycle_crunch.vrx");
                                 break;
                             case 1:
-                                placeObject("file:///android_asset/object_flowers.vrx");
+                                placeObject("file:///android_asset/Burpee.vrx");
                                 break;
                             case 2:
-                                placeObject("file:///android_asset/emoji_smile.vrx");
+                                placeObject("file:///android_asset/situps.vrx");
                                 break;
                         }
                     }
@@ -227,7 +243,7 @@ public class ViroActivity extends Activity {
                     return;
                 }
 
-                TextView initText = (TextView) activity.findViewById(R.id.initText);
+                TextView initText = activity.findViewById(R.id.initText);
                 initText.setText("AR is initialized");
                 mInitialized = true;
             }
@@ -323,8 +339,10 @@ public class ViroActivity extends Activity {
                     // Make the animation loop, then play it
                     animation.setLoop(true);
                     animation.play();
-                    mediaPlayer = MediaPlayer.create(ViroActivity.this, R.raw.hip_hop);
-                    mediaPlayer.start();
+                    if (mediaPlayer == null || !mediaPlayer.isPlaying()) {
+                        mediaPlayer = MediaPlayer.create(ViroActivity.this, R.raw.hip_hop);
+                        mediaPlayer.start();
+                    }
                 }
 
                 @Override

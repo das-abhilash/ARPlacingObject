@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:fab="http://schemas.android.com/tools">
 
     <RelativeLayout
         android:layout_gravity="top"
-
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:gravity="center"
@@ -21,7 +22,7 @@
             android:text="Initializing AR...."/>
 
     </RelativeLayout>
-    <RelativeLayout
+   <!-- <RelativeLayout
         android:layout_gravity="bottom|end"
         android:layout_width="match_parent"
         android:layout_height="100dp"
@@ -33,6 +34,50 @@
             android:layout_height="wrap_content"
             android:onClick="showPopup"
             android:background="@mipmap/viro_launcher" />
-    </RelativeLayout>
+
+    </RelativeLayout>-->
+
+    <com.github.clans.fab.FloatingActionMenu
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingRight="10dp"
+        android:layout_gravity="bottom|end"
+        android:paddingBottom="10dp"
+        android:paddingLeft="10dp"
+        fab:menu_labels_ellipsize="end"
+        fab:menu_labels_singleLine="true"
+        fab:menu_backgroundColor="#ccffffff"
+        fab:menu_fab_label="Menu label">
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fab1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_check_24dp"
+            fab:fab_size="mini"
+            fab:fab_label="Quiz"
+            android:onClick="fab1"/>
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fab2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_check_24dp"
+            fab:fab_size="mini"
+            fab:fab_label="Workout"
+            android:onClick="fab2"/>
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fab3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_check_24dp"
+            fab:fab_size="mini"
+            android:onClick="fab3"
+            fab:fab_label="Image Recognition" />
+
+    </com.github.clans.fab.FloatingActionMenu>
+
 
 </FrameLayout>
