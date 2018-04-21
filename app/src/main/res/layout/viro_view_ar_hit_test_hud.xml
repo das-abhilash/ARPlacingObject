@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:gravity="center"
-        android:background="#B3000000">
+        android:background="#E4181A">
 
         <TextView
             android:id="@+id/initText"
@@ -47,17 +47,8 @@
         android:paddingLeft="10dp"
         fab:menu_labels_ellipsize="end"
         fab:menu_labels_singleLine="true"
-        fab:menu_backgroundColor="#ccffffff"
+        fab:menu_backgroundColor="#E4181A"
         fab:menu_fab_label="Menu label">
-
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/fab1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_check_24dp"
-            fab:fab_size="mini"
-            fab:fab_label="Quiz"
-            android:onClick="fab1"/>
 
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/fab2"
@@ -75,7 +66,7 @@
             android:src="@drawable/ic_check_24dp"
             fab:fab_size="mini"
             android:onClick="fab3"
-            fab:fab_label="Image Recognition" />
+            fab:fab_label="Party" />
 
     </com.github.clans.fab.FloatingActionMenu>
 

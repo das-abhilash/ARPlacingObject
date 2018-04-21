@@ -78,7 +78,7 @@ public class ViroActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mDraggableObjects = new ArrayList<Draggable3DObject>();
+        mDraggableObjects = new ArrayList<>();
         mViroView = new ViroViewARCore(this, new ViroViewARCore.StartupListener() {
             @Override
             public void onSuccess() {
@@ -178,7 +178,7 @@ public class ViroActivity extends Activity {
                                 placeObject("file:///android_asset/bicycle_crunch.vrx");
                                 break;
                             case 1:
-                                placeObject("file:///android_asset/Burpee.vrx");
+                                placeObject("file:///android_asset/burpee1.vrx");
                                 break;
                             case 2:
                                 placeObject("file:///android_asset/situps.vrx");
