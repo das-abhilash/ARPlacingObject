@@ -54,7 +54,7 @@
             android:id="@+id/fab2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_check_24dp"
+            android:src="@drawable/ic_fitness_center_black_24dp"
             fab:fab_size="mini"
             fab:fab_label="Workout"
             android:onClick="fab2"/>
@@ -63,7 +63,7 @@
             android:id="@+id/fab3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_check_24dp"
+            android:src="@drawable/ic_sentiment_very_satisfied_black_24dp"
             fab:fab_size="mini"
             android:onClick="fab3"
             fab:fab_label="Party" />

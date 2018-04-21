@@ -30,8 +30,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.viro.core.ARAnchor;
-import com.viro.core.ARHitTestListener;
-import com.viro.core.ARHitTestResult;
 import com.viro.core.ARNode;
 import com.viro.core.ARScene;
 import com.viro.core.AmbientLight;
@@ -64,6 +62,7 @@ public class ViroActivity extends Activity {
     private static final float MIN_DISTANCE = 0.2f;
     private static final float MAX_DISTANCE = 10f;
     MediaPlayer mediaPlayer;
+    private boolean isParty = false;
     private ViroView mViroView;
     /**
      * The ARScene we will be creating within this activity.
@@ -114,6 +113,7 @@ public class ViroActivity extends Activity {
     }
 
     public void fab3(View v) {
+        isParty = true;
         placeObject("file:///android_asset/locking_poping.vrx");
         placeObject("file:///android_asset/locking_poping.vrx");
         placeObject("file:///android_asset/locking_poping.vrx");
@@ -130,29 +130,29 @@ public class ViroActivity extends Activity {
      * @param fileName The resource name of the object to place.
      */
     private void placeObject(final String fileName) {
-        ViroViewARCore viewARView = (ViroViewARCore) mViroView;
-        final Vector cameraPos = viewARView.getLastCameraPositionRealtime();
-        viewARView.performARHitTestWithRay(viewARView.getLastCameraForwardRealtime(), new ARHitTestListener() {
-            @Override
-            public void onHitTestFinished(ARHitTestResult[] arHitTestResults) {
-                if (arHitTestResults != null && arHitTestResults.length > 0) {
-                    for (int i = 0; i < arHitTestResults.length; i++) {
-                        ARHitTestResult result = arHitTestResults[i];
-                        float distance = result.getPosition().distance(cameraPos);
+//        ViroViewARCore viewARView = (ViroViewARCore) mViroView;
+//        final Vector cameraPos = viewARView.getLastCameraPositionRealtime();
+//        viewARView.performARHitTestWithRay(viewARView.getLastCameraForwardRealtime(), new ARHitTestListener() {
+//            @Override
+//            public void onHitTestFinished(ARHitTestResult[] arHitTestResults) {
+//                if (arHitTestResults != null && arHitTestResults.length > 0) {
+//                    for (int i = 0; i < arHitTestResults.length; i++) {
+//                        ARHitTestResult result = arHitTestResults[i];
+//                        float distance = result.getPosition().distance(cameraPos);
 //                        if (distance > MIN_DISTANCE && distance < MAX_DISTANCE) {
-                        // If we found a plane or feature point further than 0.2m and less 10m away,
-                        // then choose it!
-                        add3DDraggableObject(fileName, result.getPosition());
-                        return;
-//                        }
-                    }
-                }
-                Toast.makeText(ViroActivity.this, "Unable to find suitable point or plane to place object!",
-                        Toast.LENGTH_LONG).show();
-            }
+        // If we found a plane or feature point further than 0.2m and less 10m away,
+        // then choose it!
+        add3DDraggableObject(fileName, new Vector(0, 0, 0));
+//                        return;
+////                        }
+//                    }
+//                }
+//                Toast.makeText(ViroActivity.this, "Unable to find suitable point or plane to place object!",
+//                        Toast.LENGTH_LONG).show();
+//            }
 
 
-        });
+//        });
     }
 
     /**
@@ -339,7 +339,7 @@ public class ViroActivity extends Activity {
                     // Make the animation loop, then play it
                     animation.setLoop(true);
                     animation.play();
-                    if (mediaPlayer == null || !mediaPlayer.isPlaying()) {
+                    if (isParty && ( mediaPlayer == null || !mediaPlayer.isPlaying())) {
                         mediaPlayer = MediaPlayer.create(ViroActivity.this, R.raw.hip_hop);
                         mediaPlayer.start();
                     }
